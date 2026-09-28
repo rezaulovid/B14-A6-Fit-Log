@@ -1,18 +1,27 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { IWork } from "@/types/woks.type";
-export const FitsContext = createContext({});
 
 interface IFitLogContext {
   plan: IWork[];
   saved: IWork[];
+  loading: boolean;
+
   addToPlan: (workout: IWork) => void;
-  removeFromPlan: (id: string) => void;
+  removeFromPlan: (id: string | number) => void;
   toggleSaved: (workout: IWork) => void;
+  markAsDone: (id: string | number) => void;
 }
 
-const FitLogContext = createContext<IFitLogContext | undefined>(undefined);
+const FitLogContext = createContext<IFitLogContext | undefined>(
+  undefined
+);
 
 export const FitLogProvider = ({
   children,
@@ -21,7 +30,9 @@ export const FitLogProvider = ({
 }) => {
   const [plan, setPlan] = useState<IWork[]>([]);
   const [saved, setSaved] = useState<IWork[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  // Load data from localStorage
   useEffect(() => {
     const savedPlan = localStorage.getItem("fitlog-plan");
     const savedWorkouts = localStorage.getItem("fitlog-saved");
@@ -33,43 +44,81 @@ export const FitLogProvider = ({
     if (savedWorkouts) {
       setSaved(JSON.parse(savedWorkouts));
     }
+
+    setLoading(false);
   }, []);
 
+  // Save plan
   useEffect(() => {
-    localStorage.setItem("fitlog-plan", JSON.stringify(plan));
-  }, [plan]);
+    if (!loading) {
+      localStorage.setItem("fitlog-plan", JSON.stringify(plan));
+    }
+  }, [plan, loading]);
 
+  // Save saved workouts
   useEffect(() => {
-    localStorage.setItem("fitlog-saved", JSON.stringify(saved));
-  }, [saved]);
+    if (!loading) {
+      localStorage.setItem(
+        "fitlog-saved",
+        JSON.stringify(saved)
+      );
+    }
+  }, [saved, loading]);
 
+  // Add workout to today's plan
   const addToPlan = (workout: IWork) => {
     if (plan.length >= 5) {
       alert("You can add maximum 5 exercises.");
       return;
     }
 
-    const alreadyAdded = plan.some((item) => item.id === workout.id);
+    const alreadyAdded = plan.some(
+      (item) => item.id === workout.id
+    );
 
     if (alreadyAdded) {
       return;
     }
 
-    setPlan((prev) => [...prev, workout]);
+    setPlan((previous) => [...previous, workout]);
   };
 
-  const removeFromPlan = (id: string) => {
-    setPlan((prev) => prev.filter((item) => item.id !== Number(id)));
+  // Remove workout from today's plan
+  const removeFromPlan = (id: string | number) => {
+    setPlan((previous) =>
+      previous.filter(
+        (item) => String(item.id) !== String(id)
+      )
+    );
   };
 
+  // Save / unsave workout
   const toggleSaved = (workout: IWork) => {
-    const exists = saved.some((item) => item.id === workout.id);
+    const exists = saved.some(
+      (item) => item.id === workout.id
+    );
 
     if (exists) {
-      setSaved((prev) => prev.filter((item) => item.id !== workout.id));
+      setSaved((previous) =>
+        previous.filter(
+          (item) => item.id !== workout.id
+        )
+      );
     } else {
-      setSaved((prev) => [...prev, workout]);
+      setSaved((previous) => [
+        ...previous,
+        workout,
+      ]);
     }
+  };
+
+  // Mark today's workout as done
+  const markAsDone = (id: string | number) => {
+    setPlan((previous) =>
+      previous.filter(
+        (item) => String(item.id) !== String(id)
+      )
+    );
   };
 
   return (
@@ -77,9 +126,11 @@ export const FitLogProvider = ({
       value={{
         plan,
         saved,
+        loading,
         addToPlan,
         removeFromPlan,
         toggleSaved,
+        markAsDone,
       }}
     >
       {children}
@@ -91,11 +142,113 @@ export const useFitLog = () => {
   const context = useContext(FitLogContext);
 
   if (!context) {
-    throw new Error("useFitLog must be used inside FitLogProvider");
+    throw new Error(
+      "useFitLog must be used inside FitLogProvider"
+    );
   }
 
   return context;
 };
+
+
+// "use client";
+
+// import { createContext, useContext, useEffect, useState } from "react";
+// import { IWork } from "@/types/woks.type";
+// export const FitsContext = createContext({});
+
+// interface IFitLogContext {
+//   plan: IWork[];
+//   saved: IWork[];
+//   addToPlan: (workout: IWork) => void;
+//   removeFromPlan: (id: string) => void;
+//   toggleSaved: (workout: IWork) => void;
+// }
+
+// const FitLogContext = createContext<IFitLogContext | undefined>(undefined);
+
+// export const FitLogProvider = ({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) => {
+//   const [plan, setPlan] = useState<IWork[]>([]);
+//   const [saved, setSaved] = useState<IWork[]>([]);
+
+//   useEffect(() => {
+//     const savedPlan = localStorage.getItem("fitlog-plan");
+//     const savedWorkouts = localStorage.getItem("fitlog-saved");
+
+//     if (savedPlan) {
+//       setPlan(JSON.parse(savedPlan));
+//     }
+
+//     if (savedWorkouts) {
+//       setSaved(JSON.parse(savedWorkouts));
+//     }
+//   }, []);
+
+//   useEffect(() => {
+//     localStorage.setItem("fitlog-plan", JSON.stringify(plan));
+//   }, [plan]);
+
+//   useEffect(() => {
+//     localStorage.setItem("fitlog-saved", JSON.stringify(saved));
+//   }, [saved]);
+
+//   const addToPlan = (workout: IWork) => {
+//     if (plan.length >= 5) {
+//       alert("You can add maximum 5 exercises.");
+//       return;
+//     }
+
+//     const alreadyAdded = plan.some((item) => item.id === workout.id);
+
+//     if (alreadyAdded) {
+//       return;
+//     }
+
+//     setPlan((prev) => [...prev, workout]);
+//   };
+
+//   const removeFromPlan = (id: string) => {
+//     setPlan((prev) => prev.filter((item) => item.id !== Number(id)));
+//   };
+
+//   const toggleSaved = (workout: IWork) => {
+//     const exists = saved.some((item) => item.id === workout.id);
+
+//     if (exists) {
+//       setSaved((prev) => prev.filter((item) => item.id !== workout.id));
+//     } else {
+//       setSaved((prev) => [...prev, workout]);
+//     }
+//   };
+
+//   return (
+//     <FitLogContext.Provider
+//       value={{
+//         plan,
+//         saved,
+//         addToPlan,
+//         removeFromPlan,
+//         toggleSaved,
+//       }}
+//     >
+//       {children}
+//     </FitLogContext.Provider>
+//   );
+// };
+
+// export const useFitLog = () => {
+//   const context = useContext(FitLogContext);
+
+//   if (!context) {
+//     throw new Error("useFitLog must be used inside FitLogProvider");
+//   }
+
+//   return context;
+// };
 
 
 
