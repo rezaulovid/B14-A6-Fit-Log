@@ -139,20 +139,20 @@ const WorkDetailsPage = async ({
                 Instructions
               </h2>
 
-              <div className="mt-4 space-y-3">
+              {/* <div className="mt-4 space-y-3">
                 {work.instructions.map(
-                  (instruction, ind) => (
+                  (instruction:IWork, ind:number) => (
                     <div
                       key={ind}
                       className="flex gap-3 text-sm leading-6 text-gray-400"
                     >
                       <span>{ind + 1}.</span>
 
-                      <p>{instruction}</p>
+                      <p>{instruction.instructions}</p>
                     </div>
                   )
                 )}
-              </div>
+              </div> */}
             </div>
 
             {/* Add / Save */}

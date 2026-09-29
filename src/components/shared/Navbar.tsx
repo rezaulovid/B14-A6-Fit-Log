@@ -57,17 +57,21 @@ const Navbar = () => {
           </ul>
         </div>
 
-        <div className="navbar-end  px-1 gap-2 ">
-          <Link href="/my-plan" className="btn bg-black text-white">
-            My Plan
-            <span className="badge   badge-primary">{plan.length}</span>
-          </Link>
+       <div className="navbar-end px-1 gap-4">
+  <Link href="/my-plan" className="flex items-center gap-2 text-sm text-white">
+    My Plan
+    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-lime-400 text-xs font-bold text-black">
+      {plan.length}
+    </span>
+  </Link>
 
-          <Link href="/my-plan" className="btn  bg-black text-white">
-            Saved
-            <span className="badge  badge-primary">{saved.length}</span>
-          </Link>
-        </div>
+  <Link href="/my-plan" className="flex items-center gap-2 text-sm text-gray-400">
+    Saved
+    <span className="flex h-6 w-6 items-center justify-center rounded-full border border-gray-500 text-xs font-bold text-gray-300">
+      {saved.length}
+    </span>
+  </Link>
+</div>
       </div>
     </nav>
   );

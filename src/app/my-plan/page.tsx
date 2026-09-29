@@ -99,7 +99,7 @@ const MyPlanPage = () => {
             </p>
           </div>
 
-          {/* Calories */}
+        
           <div className="rounded-2xl border border-[#252832] bg-[#15171e] p-6">
             <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
               Calories
@@ -111,7 +111,7 @@ const MyPlanPage = () => {
           </div>
         </div>
 
-        {/* Tabs */}
+    
         <div className="mt-10 border-b border-[#252832]">
           <div className="flex gap-8">
 
@@ -146,13 +146,13 @@ const MyPlanPage = () => {
           </div>
         </div>
 
-        {/* Loading */}
+    
         {loading ? (
           <div className="py-20 text-center text-gray-400">
             Loading workouts…
           </div>
         ) : currentWorkouts.length === 0 ? (
-          /* Empty State */
+        
           <div className="py-24 text-center">
 
             <h2 className="text-2xl font-extrabold">
@@ -173,7 +173,7 @@ const MyPlanPage = () => {
 
           </div>
         ) : (
-          /* Workout List */
+         
           <div className="mt-8 space-y-5">
 
             {currentWorkouts.map((workout) => (
@@ -183,7 +183,7 @@ const MyPlanPage = () => {
               >
                 <div className="flex flex-col md:flex-row">
 
-                  {/* Thumbnail */}
+                
                   <div className="relative h-56 w-full shrink-0 md:h-auto md:w-64">
                     <Image
                       src={workout.image}
@@ -193,7 +193,7 @@ const MyPlanPage = () => {
                     />
                   </div>
 
-                  {/* Content */}
+                
                   <div className="flex flex-1 flex-col justify-between p-5 md:p-6">
 
                     <div>
@@ -206,7 +206,7 @@ const MyPlanPage = () => {
                       </p>
                     </div>
 
-                    {/* Stats */}
+                 
                     <div className="mt-5 flex flex-wrap gap-5 text-sm text-gray-300">
 
                       <span>
@@ -223,7 +223,7 @@ const MyPlanPage = () => {
 
                     </div>
 
-                    {/* Actions */}
+                  
                     <div className="mt-6 flex flex-wrap gap-3">
 
                       <Link
