@@ -17,7 +17,7 @@ const Works = async () => {
   return (
     <section className="container mx-auto my-[70px] px-4">
 
-      {/* Section Heading */}
+
       <div className="mb-10 so it aligns to the left[cite: 8, 9]">
        
         <h2 className="text-3xl font-bold md:text-4xl">
@@ -29,7 +29,7 @@ const Works = async () => {
         </p>
       </div>
 
-      {/* Works Cards */}
+
       <div className="grid grid-cols-1 gap-7 
       md:grid-cols-2 lg:grid-cols-3">
 

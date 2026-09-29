@@ -10,7 +10,7 @@ const WorkCard =  ({work}:IWorkCardProps) => {
     return (
          <div
                     
-                     className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+                     className="group overflow-hidden rounded-2xl border border-black bg-black shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
                    >
        
                      {/* Image */}

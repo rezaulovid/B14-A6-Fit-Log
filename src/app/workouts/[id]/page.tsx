@@ -2,6 +2,8 @@ import { IWork } from "@/types/woks.type";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+import AddButton from "@/components/workDetails/readButton";
+
 interface IWorkDetailsPageProps {
   params: Promise<{
     id: string;
@@ -28,7 +30,8 @@ const WorkDetailsPage = async ({
   const worksData: IWork[] = await getWorks();
 
   const work = worksData.find(
-    (item) => String(item.id) === String(id)
+    (item) =>
+      String(item.id) === String(id)
   );
 
   if (!work) {
@@ -61,16 +64,18 @@ const WorkDetailsPage = async ({
               {work.description}
             </p>
 
-            {/* Tags */}
+            {/* Muscle Groups */}
             <div className="mt-5 flex flex-wrap gap-3">
-              {work.muscleGroups.map((muscle) => (
-                <span
-                  key={muscle}
-                  className="rounded-full bg-lime-400 px-4 py-2 text-sm font-bold text-black"
-                >
-                  {muscle}
-                </span>
-              ))}
+              {work.muscleGroups.map(
+                (muscle) => (
+                  <span
+                    key={muscle}
+                    className="rounded-full bg-lime-400 px-4 py-2 text-sm font-bold text-black"
+                  >
+                    {muscle}
+                  </span>
+                )
+              )}
             </div>
 
             {/* Information */}
@@ -115,7 +120,9 @@ const WorkDetailsPage = async ({
                 <span className="text-xs font-bold uppercase text-gray-500">
                   Calories
                 </span>
-                <span>{work.caloriesBurned} kcal</span>
+                <span>
+                  {work.caloriesBurned} kcal
+                </span>
               </div>
 
               <div className="flex justify-between px-5 py-4">
@@ -133,28 +140,23 @@ const WorkDetailsPage = async ({
               </h2>
 
               <div className="mt-4 space-y-3">
-                {work.instructions.map((instruction, ind) => (
-                  <div
-                    key={ind}
-                    className="flex gap-3 text-sm leading-6 text-gray-400"
-                  >
-                    <span>{ind + 1}.</span>
-                    <p>{instruction}</p>
-                  </div>
-                ))}
+                {work.instructions.map(
+                  (instruction, ind) => (
+                    <div
+                      key={ind}
+                      className="flex gap-3 text-sm leading-6 text-gray-400"
+                    >
+                      <span>{ind + 1}.</span>
+
+                      <p>{instruction}</p>
+                    </div>
+                  )
+                )}
               </div>
             </div>
 
-            {/* Buttons */}
-            <div className="mt-7 flex flex-wrap gap-3">
-              <button className="rounded-xl bg-lime-400 px-6 py-3 font-bold text-black">
-                Add to today's plan
-              </button>
-
-              <button className="rounded-xl border border-[#30343d] bg-[#15171e] px-6 py-3 text-gray-300">
-                ♡ Save for later
-              </button>
-            </div>
+            {/* Add / Save */}
+            <AddButton work={work} />
           </div>
         </div>
       </div>

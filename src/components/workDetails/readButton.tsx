@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
+import { toast } from "react-toastify";
+
 import { IWork } from "@/types/woks.type";
 import { useFitLog } from "@/context/FitLogContext";
-import { toast } from "react-toastify";
 
 interface IAddButtonProps {
   work: IWork;
@@ -18,11 +19,13 @@ const AddButton = ({ work }: IAddButtonProps) => {
   } = useFitLog();
 
   const alreadyInPlan = plan.some(
-    (item) => item.id === work.id
+    (item) =>
+      String(item.id) === String(work.id)
   );
 
   const alreadySaved = saved.some(
-    (item) => item.id === work.id
+    (item) =>
+      String(item.id) === String(work.id)
   );
 
   const handleAddToPlan = () => {
@@ -54,10 +57,10 @@ const AddButton = ({ work }: IAddButtonProps) => {
   };
 
   return (
-    <div className="mt-2 flex flex-wrap gap-3">
+    <div className="mt-7  flex flex-wrap gap-3">
       <button
         onClick={handleAddToPlan}
-        className="rounded-xl bg-primary px-6 py-3 font-semibold text-white transition hover:opacity-90"
+        className="rounded-xl bg-lime-400 px-6 py-3 font-bold text-black transition hover:opacity-90"
       >
         {alreadyInPlan
           ? "Added to today's plan"
